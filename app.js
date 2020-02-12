@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 
 var routesActors = require('./api/routes/actorRoutes');
 var routesFinder = require('./api/routes/applicationRoutes'); 
-var routesApplication = require('./api/routes/tripsRoutes');
+var routesApplication = require('./api/routes/tripRoutes');
 
 
 routesActors(app);
