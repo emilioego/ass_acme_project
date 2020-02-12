@@ -3,7 +3,7 @@ var express = require('express'),
   port = process.env.PORT || 8080,
   mongoose = require('mongoose'),
   Actor = require('./api/models/actorModel'),
-  Finder = require('./api/models/finderModel'),
+  Trip = require('./api/models/tripModel'),
   Application = require('./api/models/applicationModel'),
   bodyParser = require('body-parser');
 
@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 
 var routesActors = require('./api/routes/actorRoutes');
 var routesFinder = require('./api/routes/applicationRoutes'); 
-var routesApplication = require('./api/routes/finderRoutes');
+var routesApplication = require('./api/routes/tripsRoutes');
 
 
 routesActors(app);
