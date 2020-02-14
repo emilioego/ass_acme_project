@@ -1,11 +1,16 @@
 'use strict';
 /*---------------TRIP----------------------*/
 
-//ERROR RESPONSES
+//MONGOOSE ERROR RESPONSES
 const VALIDATION_ERROR='ValidationError';
-
-const STATUS_CODE_VALIDATION_ERROR=422;   
+const CAST_ERROR='CastError';
+ 
+//RESPONSE_STATUS_CODE
+const CREATED=201;
+const NO_CONTENT=204;
 const STATUS_CODE_NOT_FOUND=404;  
+const STATUS_CODE_CAST_ERROR=400;  
+const STATUS_CODE_VALIDATION_ERROR=422;  
 const STATUS_CODE_INTERNAL_SERVER_ERROR=500;
 
 /*---------------GET----------------------*/
@@ -49,7 +54,7 @@ exports.create_a_trip = function (req, res) {
             return processErrors(res, err);
         }else{
             console.log(Date(), ` SUCCESS: -POST /trips`);
-            res.status(201).json(trip);
+            res.status(CREATED).json(trip);
         }
     });
 };
@@ -79,7 +84,7 @@ exports.delete_a_trip = function(req, res) {
             return processErrors(res, err);
         }else{
             console.log(Date(), ` SUCCESS: -DELETE /trips/${req.params.tripId}`);
-            res.json({ message: 'Trip successfully deleted' });
+            res.status(NO_CONTENT).json({ message: 'Trip successfully deleted' });
         }
     });
 }
@@ -88,6 +93,8 @@ function processErrors(res, err){
     switch(err.name){
         case VALIDATION_ERROR:
             return res.status(STATUS_CODE_VALIDATION_ERROR).send(err);
+        case CAST_ERROR:
+            return res.status(STATUS_CODE_CAST_ERROR).send(err);
         case VALIDATION_ERROR:
             return res.status(STATUS_CODE_NOT_FOUND).send(err);
         default:
