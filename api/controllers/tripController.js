@@ -49,7 +49,7 @@ exports.create_a_trip = function (req, res) {
             return processErrors(res, err);
         }else{
             console.log(Date(), ` SUCCESS: -POST /trips`);
-            res.json(trip);
+            res.status(201).json(trip);
         }
     });
 };
