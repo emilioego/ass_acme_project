@@ -9,7 +9,6 @@ var TripSchema = new Schema({
     ticker: {
       type: String,
       unique: true,
-      required: 'Kindly enter the trip ticker',
       //This validation does not run after middleware pre-save
       validate: {
         validator: function(v) {
@@ -51,14 +50,13 @@ var TripSchema = new Schema({
         type: Boolean,
         default: false
     },
+     //TODO: Validar pues no funciona correctamente
     reason: {
         type: String,
-        required: {
-            validator: function() {
-                return this.canceled && this.reason=='';
-            },
-            message: 'Reason is required if the trip is canceled'
-        }
+        required: [
+            function() { return this.canceled && this.reason===''; },
+            'The reason is required if trip is canceled'
+        ]
     }
     //TODO: Falta esquema del documento Stage
 }, { strict: false, timestamps: true });
@@ -67,7 +65,6 @@ var TripSchema = new Schema({
 TripSchema.pre('save', function(callback) {
     var new_trip = this;
     var day=dateFormat(new Date(), "yymmdd");
-  
     var generated_ticker = [day, generate('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 4)].join('-')
     new_trip.ticker = generated_ticker;
     callback();
